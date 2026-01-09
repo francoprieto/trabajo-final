@@ -1,0 +1,273 @@
+1) Cómo analizar PyGoat con Bandit (paso a paso)
+1.1. Preparación
+git clone https://github.com/adeyosemanputra/pygoat
+cd pygoat
+python -m venv .venv
+source .venv/bin/activate
+pip install bandit
+
+1.2. Ejecutar Bandit
+
+Escaneo completo con reporte legible:
+
+bandit -r . -f txt -o bandit_report.txt
+
+
+Para JSON (útil si vas a pegarlo en un informe):
+
+bandit -r . -f json -o bandit_report.json
+
+
+Tip de enfoque: PyGoat es Django; suele ser útil priorizar carpetas “app” y excluir entorno/estáticos:
+
+bandit -r pygoat challenge introduction -x .venv,static,media,migrations -f txt -o bandit_report.txt
+
+2) Vulnerabilidades seleccionadas (3 obligatorias + 2 opcionales)
+
+Voy a cubrir:
+
+Obligatorias (3): CWE-502, CWE-78, CWE-259
+
+Opcionales (2): CWE-330, CWE-327
+
+Y en cada una te doy: qué es, mapeo OWASP Top 10, Bandit (qué regla suele detectarlo) y cómo remediar.
+
+A) (Obligatoria) CWE-502 — Deserialización de datos no confiables
+Qué es
+
+Cuando la app deserializa (por ej. pickle.loads) datos que un atacante puede controlar, puede terminar en ejecución de código.
+
+OWASP Top 10 (2021)
+
+A08: Software and Data Integrity Failures, incluye explícitamente CWE-502.
+
+Bandit: qué te va a marcar
+
+Bandit tiene blacklist para pickle y similares: B301 (pickle).
+
+Remediación recomendada
+
+Regla de oro: No uses pickle con datos no confiables.
+
+Opciones seguras (según caso):
+
+Cambiar formato: JSON (json.loads) / YAML seguro (con safe_load) si aplica.
+
+Si “sí o sí” hay objetos: usar un esquema estricto (p. ej. Pydantic) y validar.
+
+Integridad/autenticidad: si recibís blobs, firmarlos (HMAC) y rechazar si falla la firma.
+
+Ejemplo (migración de pickle → JSON con validación):
+
+import json
+from pydantic import BaseModel, ValidationError
+
+class Payload(BaseModel):
+    user_id: int
+    action: str
+
+def parse_payload(raw: str) -> Payload:
+    data = json.loads(raw)
+    return Payload(**data)
+
+
+Ejemplo (si mantenés serialización binaria, mínimo HMAC):
+
+import hmac, hashlib, base64
+
+def verify_and_decode(token: str, secret: bytes) -> bytes:
+    msg_b64, sig_b64 = token.split(".")
+    msg = base64.b64decode(msg_b64)
+    sig = base64.b64decode(sig_b64)
+
+    expected = hmac.new(secret, msg, hashlib.sha256).digest()
+    if not hmac.compare_digest(sig, expected):
+        raise ValueError("Invalid signature")
+    return msg
+
+B) (Obligatoria) CWE-78 — OS Command Injection
+Qué es
+
+Cuando armas comandos del sistema con input del usuario (por ejemplo os.system("ping " + host)), un atacante puede inyectar ; rm -rf ....
+
+OWASP Top 10 (2021)
+
+A03: Injection incluye OS command injection.
+
+Bandit: qué te va a marcar
+
+Bandit suele marcar:
+
+subprocess con shell=True
+
+os.system, popen, etc.
+(Estas detecciones aparecen en los “blacklists” de llamadas peligrosas y reglas de subprocess en Bandit docs.
+
+)
+
+Remediación recomendada
+
+Regla de oro: Nunca uses shell=True con input no confiable. Preferí:
+
+subprocess.run(["ping", "-c", "1", host], shell=False, check=True)
+
+y validación/allowlist del input.
+
+Ejemplo inseguro → seguro
+
+# ❌ Inseguro
+import subprocess
+subprocess.run(f"ping -c 1 {host}", shell=True)
+
+# ✅ Seguro (sin shell) + lista de argumentos
+import subprocess
+subprocess.run(["ping", "-c", "1", host], check=True)
+
+
+Validación recomendada (allowlist):
+
+import re
+HOST_RE = re.compile(r"^[a-zA-Z0-9.-]{1,253}$")
+
+def validate_host(host: str) -> str:
+    if not HOST_RE.match(host):
+        raise ValueError("host inválido")
+    return host
+
+C) (Obligatoria) CWE-259 — Contraseña hardcodeada
+Qué es
+
+Credenciales “pegadas” en el código (password/API key), difíciles de rotar y fáciles de filtrar.
+
+OWASP Top 10 (2021)
+
+OWASP Top 10 2021 menciona CWE-259 como CWE notable dentro de A02: Cryptographic Failures.
+
+
+(En la práctica, también se relaciona con fallas de autenticación/gestión de credenciales.)
+
+Bandit: qué te va a marcar
+
+Bandit suele detectar hardcoded passwords (plugins tipo “password hardcoded”), y además puedes complementarlo con secret scanners, pero en Bandit el hallazgo típico es obvio: strings “password=…”, “SECRET_KEY=…”, etc. (La categorización exacta depende de la versión/config.)
+
+Remediación recomendada (Django-friendly)
+
+Sacar secretos del repo (variables de entorno).
+
+Rotar credenciales y llaves comprometidas.
+
+En Django: SECRET_KEY, DATABASE_PASSWORD, etc. por env vars.
+
+Ejemplo (settings.py):
+
+import os
+
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+DATABASES = {
+  "default": {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.environ["DB_NAME"],
+    "USER": os.environ["DB_USER"],
+    "PASSWORD": os.environ["DB_PASSWORD"],
+    "HOST": os.environ.get("DB_HOST", "localhost"),
+  }
+}
+
+D) (Opcional) CWE-330 — Valores insuficientemente aleatorios
+Qué es
+
+Uso de aleatoriedad débil en contexto de seguridad (tokens, reset links, OTPs).
+
+OWASP Top 10 (2021)
+
+Se relaciona típicamente con A07: Identification and Authentication Failures (tokens/OTP débiles)
+
+y también con criptografía/entropía.
+
+Bandit: qué te va a marcar
+
+Bandit suele alertar cuando se usa random para cosas de seguridad (en vez de secrets).
+
+Remediación
+
+Usar secrets (criptográficamente seguro) para tokens/OTP:
+
+import secrets
+
+token = secrets.token_urlsafe(32)          # links de reseteo / sesiones
+otp = f"{secrets.randbelow(10**6):06d}"    # OTP 6 dígitos
+
+E) (Opcional) CWE-327 — Algoritmo criptográfico roto o riesgoso
+Qué es
+
+Uso de MD5/SHA1/DES/RC4 u otros algoritmos inseguros para integridad/seguridad.
+
+OWASP Top 10 (2021)
+
+Esto cae directo en A02: Cryptographic Failures, que lista CWE-327 como notable.
+
+Bandit: qué te va a marcar
+
+B324: uso de hashes inseguros (MD4/MD5/SHA1) en hashlib y crypt.
+
+Remediación
+
+Para hashing de contraseñas: Argon2 / bcrypt / PBKDF2 (en Django: usar el sistema de make_password/check_password).
+
+Para integridad: SHA-256/512, o mejor HMAC-SHA256 si hay clave compartida.
+
+Ejemplo (integridad con HMAC):
+
+import hmac, hashlib
+
+sig = hmac.new(secret_key, message_bytes, hashlib.sha256).hexdigest()
+
+3) Mapeo resumen (CWE → Bandit → OWASP Top 10)
+CWE	Riesgo	Bandit (típico)	OWASP Top 10 (2021)
+CWE-502	Deserialización insegura / RCE	B301 (pickle)
+A08 (lo menciona explícitamente)
+CWE-78
+OS command injection
+blacklist de llamadas peligrosas / subprocess
+A03 Injection
+CWE-259
+Password hardcodeada
+hardcoded password checks
+A02 Cryptographic Failures (lo lista)
+CWE-330
+Aleatoriedad débil
+uso inseguro de random
+A07 (tokens/OTP débiles)
+CWE-327
+Crypto roto/riesgoso
+B324 (MD5/SHA1)
+A02
+4) Qué poner en tu entrega (estructura sugerida)
+
+Introducción a PyGoat (proyecto educativo intencionalmente vulnerable).
+
+Metodología SAST con Bandit (comandos + alcance + exclusiones).
+
+Hallazgos: pega 3–5 vulnerabilidades (las de arriba) con:
+
+Evidencia (línea/archivo del Bandit report)
+
+CWE + descripción
+
+Bandit rule / referencia docs
+
+OWASP Top 10 mapping
+
+Remediación (y snippet “before/after”)
+
+Conclusión: priorización por impacto y facilidad de fix.
+
+Si querés, te lo dejo listo “copiar/pegar” como informe
+
+Pásame tu bandit_report.txt (o pega aquí las 20–40 líneas relevantes) y te armo:
+
+la sección de Hallazgos con evidencia real (archivo:línea),
+
+remediación exacta aplicada al código de PyGoat,
+
+y el mapeo final CWE ↔ OWASP ya con tus capturas/salidas.
