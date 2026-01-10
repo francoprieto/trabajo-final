@@ -40,18 +40,7 @@ pipeline {
           . "${VENV}/bin/activate"
           mkdir -p reports
 
-          # Human-readable
-          bandit -r . -x "${BANDIT_EXCLUDE}" -f txt  -o reports/bandit_report.txt
-
-          # Machine-readable
           bandit -r . -x "${BANDIT_EXCLUDE}" -f json -o reports/bandit_report.json
-
-          # HTML report (nice for Jenkins publishing)
-          bandit -r . -x "${BANDIT_EXCLUDE}" -f html -o reports/bandit_report.html
-
-          # Gate: report only MEDIUM+ severity (-ll) and HIGH confidence (-iii).
-          # This step will fail the build if issues are found (Bandit returns non-zero).
-          bandit -r . -x "${BANDIT_EXCLUDE}" -ll -iii -f txt -o reports/bandit_gate.txt
         '''
       }
     }
