@@ -6,7 +6,6 @@ pipeline {
 
   options {
     timestamps()
-    ansiColor('xterm')
   }
 
   environment {
@@ -16,6 +15,7 @@ pipeline {
   }
 
   stages {
+
     stage('Checkout') {
       steps {
         git url: 'https://github.com/adeyosemanputra/pygoat.git', branch: 'master'
@@ -60,18 +60,6 @@ pipeline {
   post {
     always {
       archiveArtifacts artifacts: 'reports/*', fingerprint: true
-    }
-
-    // Optional: publish the HTML report in Jenkins (needs "HTML Publisher" plugin)
-    always {
-      publishHTML(target: [
-        allowMissing: true,
-        alwaysLinkToLastBuild: true,
-        keepAll: true,
-        reportDir: 'reports',
-        reportFiles: 'bandit_report.html',
-        reportName: 'Bandit Security Report'
-      ])
     }
   }
 }
