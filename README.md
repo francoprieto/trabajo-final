@@ -20,7 +20,7 @@ dockerd-rootless-setuptool.sh install
 
 systemctl --user start docker
 
-sudo usermod -aG dockersock franco
+sudo usermod -aG docker $(whoami)
 ```
 Fuente: https://docs.docker.com/engine/security/rootless/
 
