@@ -18,8 +18,9 @@ sudo rm /var/run/docker.sock
 
 dockerd-rootless-setuptool.sh install
 
-sudo systemctl enable docker
-sudo systemctl start docker
+systemctl --user start docker
+
+sudo usermod -aG dockersock franco
 ```
 Fuente: https://docs.docker.com/engine/security/rootless/
 
