@@ -7,6 +7,8 @@
 - [ ] Buscar información sobre cada vulnerabilidad y su remediación 
 - [ ] Mapear con OWASP Top 10 e investigar el CWE al que pertenece
 
+## Análisis de proyecto pygoat con bandit
+
 1. Preparar jenkins (ver "Pasos para instalar y ejecutar jenkins en docker")
 
 2. Se crea un Item llamado "ejercicio1" de tipo pipeline y configurar de la siguiente manera:
