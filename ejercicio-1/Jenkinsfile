@@ -39,8 +39,8 @@ pipeline {
         sh '''
           . "${VENV}/bin/activate"
           mkdir -p reports
-          ls -la
-          bandit -r . -x "${BANDIT_EXCLUDE}" -f json -o reports/bandit_report.json
+          echo "Excluded--- ${BANDIT_EXCLUDE}"
+          bandit -r . -f json -o reports/bandit_report.json
         '''
       }
     }
