@@ -10,8 +10,6 @@ pipeline {
 
   environment {
     VENV = '.venv'
-    // Exclusiones comunes
-    BANDIT_EXCLUDE = ".venv,static,media,migrations,__pycache__,.git,.tox"
   }
 
   stages {
@@ -25,6 +23,8 @@ pipeline {
     stage('Instalacion Bandit') {
       steps {
         sh '''
+          cd ..
+          ls -la
           python -V
           python -m venv "${VENV}"
           . "${VENV}/bin/activate"
@@ -37,10 +37,13 @@ pipeline {
     stage('Bandit SAST') {
       steps {
         sh '''
+          cd ..
+          ls -la        
           . "${VENV}/bin/activate"
           mkdir -p reports
-          bandit -r . -x "${BANDIT_EXCLUDE}" --exit-zero -f html -o reports/bandit_report.html
-          bandit -r . -x "${BANDIT_EXCLUDE}" --exit-zero -f json -o reports/bandit_report.json
+          bandit -r ./pygoat --exit-zero -f txt -o reports/bandit_report.txt
+          bandit -r ./pygoat --exit-zero -f html -o reports/bandit_report.html
+          bandit -r ./pygoat --exit-zero -f json -o reports/bandit_report.json
         '''
       }
     }
@@ -48,7 +51,7 @@ pipeline {
 
   post {
     always {
-      archiveArtifacts artifacts: 'reports/*', fingerprint: true
+      archiveArtifacts artifacts: '../reports/*', fingerprint: true
     }
   }
 }
