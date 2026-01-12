@@ -1,22 +1,16 @@
-# Ejercicio 1
+# 1. Ejercicio 1
 
 ![Ejercicio](../resources/imgs/ejercicio1-enunciado.png)
 
-- [x] Realizar un análisis sobre el proyecto pygoat con Bandit
-- [ ] Remediar 3 a 5 vulnerabilidades
-- [ ] Buscar información sobre cada vulnerabilidad y su remediación 
-- [ ] Mapear con OWASP Top 10 e investigar el CWE al que pertenece
 
-## Análisis de proyecto pygoat con bandit
-
-### 1. Clonamos el repositorio pygoat
+### 1.1. Clonamos el repositorio pygoat
 ```bash
 git clone https://github.com/adeyosemanputra/pygoat
 ```
 ![Ejercicio](../resources/imgs/1/00-pygoat-clone.png)
 
 
-### 2. Configuramos el entorno e instalamos bandit:
+### 1.2. Configuramos el entorno e instalamos bandit:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -25,7 +19,7 @@ pip install bandit
 ![Ejercicio](../resources/imgs/1/01-bandit-install.png)
 
 
-### 3. Ejecutamos el analisis exportando el resultado a txt, json y html
+### 1.3. Ejecutamos el analisis exportando el resultado a txt, json y html
 ```bash
 mkdir bandit_reports
 bandit -r ./pygoat -f html -o bandit_reports/bandit_report.html
@@ -34,13 +28,13 @@ bandit -r ./pygoat -f txt -o bandit_reports/bandit_report.txt
 ```
 ![Ejercicio](../resources/imgs/1/02-bandit-analisis.png)
 
-### 4. Verificamos el resultado, y seleccionamos las vulnerabilidades a remediar correspondientes a los CWEs requeridos por el ejercicio:
+### 1.4. Verificamos el resultado, y seleccionamos las vulnerabilidades a remediar correspondientes a los CWEs requeridos por el ejercicio:
 
-#### 4.1. CWE-327 — Algoritmo criptográfico roto o riesgoso
+#### 1.4.1. CWE-327 — Algoritmo criptográfico roto o riesgoso
 
 ![Ejercicio](../resources/imgs/1/03-cwe-327.png)
 
-#### 4.1.1. Descripción del CWE-327
+#### 1.4.1.1. Descripción del CWE-327
 ```txt
 El producto utiliza un algoritmo o protocolo criptográfico roto o riesgoso.
 
@@ -55,53 +49,62 @@ Por diversas razones, esta debilidad es aún más difícil de gestionar con la i
 
 Fuente: https://cwe.mitre.org/data/definitions/327.html
 
-#### 4.1.2. Remediación
+#### 1.4.1.2. Remediación
 
 Cambiamos el algoritmo para generación de hash de MD5 a SHA256:
 
 ![Ejercicio](../resources/imgs/1/04-cwe-327-remediacion.png)
 
-#### 4.1.3. Mapeo con OWASP Top 10
+#### 1.4.1.3. Mapeo con OWASP Top 10
 
 El CWE-327, "Uso de un algoritmo criptográfico defectuoso o riesgoso", se relaciona directamente con la categoría A04:2025 - Fallos criptográficos (anteriormente A02 en 2021) del Top 10 de OWASP, ya que abarca algoritmos débiles, aleatoriedad insuficiente y criptografía defectuosa que provoca la exposición de datos. Es una vulnerabilidad clave en esta sección de OWASP.
 
-#### 4.2. CWE-78 — OS Command Injection
+#### 1.4.2. CWE-78 — OS Command Injection
 
 ![Ejercicio](../resources/imgs/1/05-cwe-78.png)
 
 
-#### 4.2.1. Descripción del CWE-78
+#### 1.4.2.1. Descripción del CWE-78
 ```txt
 El producto construye todo o parte de un comando del sistema operativo utilizando una entrada influenciada externamente desde un componente *upstream*, pero no neutraliza o neutraliza incorrectamente elementos especiales que podrían modificar el comando del sistema operativo deseado cuando se envía a un componente *downstream*.
 ```
 
 Fuente: https://cwe.mitre.org/data/definitions/78.html
 
-#### 4.2.2. Remediación
+#### 1.4.2.2. Remediación
 
 Evitamos concatenar command con domain y en su lugar enviamos a subprocess.Popen como un array:
 
 ![Ejercicio](../resources/imgs/1/06-cwe-78-remediacion.png)
 
-#### 4.2.3. Mapeo con OWASP Top 10
+#### 1.4.2.3. Mapeo con OWASP Top 10
 
 El CWE-78, "OS Command Injection", se relaciona directamente con la categoría A05:2025 - Inyección, del Top 10 de OWASP, ya que entra dentro de la definición de Ijection: *Cuando se envían datos no confiables a un intérprete como parte de un comando o consulta.* 
 
-#### 4.3. CWE-502 Deserialization of Untrusted Data
+#### 1.4.3. CWE-502 Deserialization of Untrusted Data
 
 ![Ejercicio](../resources/imgs/1/07-cwe-502.png)
 
-#### 4.3.1. Descripción del CWE-502
+#### 1.4.3.1. Descripción del CWE-502
 ```txt
 El producto deserializa datos no confiables sin garantizar suficientemente que los datos resultantes sean válidos.
 ```
 
-#### 4.3.2. Remediación
+#### 1.4.3.2. Remediación
 
 En lugar de utilizar picke.loads, utilizamos la librería json:
 
 ![Ejercicio](../resources/imgs/1/08-cwe-502-remediacion.png)
 
-#### 4.3.3. Mapeo con OWASP Top 10
+#### 1.4.3.3. Mapeo con OWASP Top 10
 
 El CWE-502 "Deserialización de datos no confiables" se corresponde con OWASP Top 10 2025 – A08: Fallas de integridad de software y datos, ya que la aplicación deserializa entradas no confiables de una manera que puede permitir violaciones de integridad y ejecución de código arbitrario.
+
+#### 1.4.4. CWE-259 Use of Hard-coded Password
+
+![Ejercicio](../resources/imgs/1/09-cwe-259.png)
+
+#### 1.4.4.1. Descripción del CWE-259
+```txt
+El producto contiene una contraseña *en duro*, que utiliza para su propia autenticación entrante o para la comunicación saliente con componentes externos.
+```
