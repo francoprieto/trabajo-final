@@ -1,26 +1,37 @@
-# Ejercicio 1
+# 2. Ejercicio 2
 
-![Ejercicio](../resources/imgs/ejercicio1-enunciado.png)
+![Ejercicio](../resources/imgs/ejercicio2-enunciado.png)
 
-- [x] Realizar un análisis sobre el proyecto pygoat con Bandit
-- [ ] Remediar 3 a 5 vulnerabilidades
-- [ ] Buscar información sobre cada vulnerabilidad y su remediación 
-- [ ] Mapear con OWASP Top 10 e investigar el CWE al que pertenece
+## 2.1. Montamos una instancia de Jenkins
 
-## Análisis de proyecto pygoat con bandit
+Seguir los "pasos de para instalar y ejecutar jenkins en docker".
 
-1. Preparar jenkins (ver "Pasos para instalar y ejecutar jenkins en docker")
+## 2.2. Crear y configurar el pipeline
 
-2. Se crea un Item llamado "ejercicio1" de tipo pipeline y configurar de la siguiente manera:
+### 2.2.1. Crear un pipeline
 
-2.1. Marcar la opción "GitHub project" y en "Project url" completar con:
+Creamos un Item llamado "ejercicio2" de tipo pipeline.
+![Ejercicio](../resources/imgs/2/01-crear-pipeline.png)
+
+### 2.2.2. Apuntar a proyecto github
+Marcamos la opción "GitHub project" y en "Project url" completamos con:
 https://github.com/francoprieto/trabajo-final.git/
 
-2.2. En la sección  "Definition" seleccionar la opción "Pipeline script from SCM", y allí completar 
+![Ejercicio](../resources/imgs/2/02-apuntar-github.png)
+
+### 2.2.3. Apuntar a Jenkinsfile
+En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM", y allí completamos con 
 - "Repository URL" con https://github.com/francoprieto/trabajo-final.git
+
+![Ejercicio](../resources/imgs/2/03-apuntar-jenkinsfile-1.png)
 
 - "Branch Specifier (blank for 'any')" completar con: */main
 
-- "Script Path" completar con: ./ejercicio-1/Jenkinsfile
+![Ejercicio](../resources/imgs/2/04-apuntar-jenkinsfile-2.png)
+
+- "Script Path" completar con: ./ejercicio-2/Jenkinsfile
+
+![Ejercicio](../resources/imgs/2/05-apuntar-jenkinsfile-3.png)
+
 
 3. Ejecutar el pipeline y verificar el "bandit_report.json" resultante.
