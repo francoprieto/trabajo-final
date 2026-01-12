@@ -108,3 +108,13 @@ El CWE-502 "Deserialización de datos no confiables" se corresponde con OWASP To
 ```txt
 El producto contiene una contraseña *en duro*, que utiliza para su propia autenticación entrante o para la comunicación saliente con componentes externos.
 ```
+
+#### 1.4.4.2. Remediación
+
+Se obtqiene el valor para app.secret_key desde un archivo config.json:
+
+![Ejercicio](../resources/imgs/1/10-cwe-259-remediacion.png)
+
+#### 1.4.4.3. Mapeo con OWASP Top 10
+
+El CWE-259 "Uso de password en duro" se corresponde con OWASP Top 10 2025 – A04: Fallas criptográficas, ya que la aplicación deserializa entradas no confiables de una manera que puede permitir violaciones de integridad y ejecución de código arbitrario.
