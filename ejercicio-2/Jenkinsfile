@@ -23,11 +23,10 @@ pipeline {
     stage('Instalacion Bandit') {
       steps {
         sh '''
-          cd ..
           ls -la
           python -V
-          python -m venv "${VENV}"
-          . "${VENV}/bin/activate"
+          python -m venv "../${VENV}"
+          . "../${VENV}/bin/activate"
           pip install --upgrade pip
           pip install bandit
         '''
@@ -37,9 +36,8 @@ pipeline {
     stage('Bandit SAST') {
       steps {
         sh '''
-          cd ..
           ls -la        
-          . "${VENV}/bin/activate"
+          . "../${VENV}/bin/activate"
           mkdir -p reports
           bandit -r ./pygoat --exit-zero -f txt -o reports/bandit_report.txt
           bandit -r ./pygoat --exit-zero -f html -o reports/bandit_report.html
