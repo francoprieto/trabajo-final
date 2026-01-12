@@ -79,6 +79,12 @@ Fuente: https://cwe.mitre.org/data/definitions/78.html
 
 #### 4.2.2. Remediación
 
-Cambiamos el parámetro de shell=True a shell=False:
+Evitamos concatenar command con domain y en su lugar enviamos a subprocess.Popen como un array:
 
 ![Ejercicio](../resources/imgs/1/06-cwe-78-remediacion.png)
+
+#### 4.2.3. Mapeo con OWASP Top 10
+
+El CWE-78, "OS Command Injection", se relaciona directamente con la categoría A03:2025 - Inyecciones del Top 10 de OWASP, ya que entra dentro de la definición de Ijection: *Cuando se envían datos no confiables a un intérprete como parte de un comando o consulta.* 
+
+#### 4.3. CWE-78 — OS Command Injection
