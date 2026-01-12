@@ -1,0 +1,1359 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Bandit Report
+</title>
+
+<style>
+
+html * {
+    font-family: "Arial", sans-serif;
+}
+
+pre {
+    font-family: "Monaco", monospace;
+}
+
+.bordered-box {
+    border: 1px solid black;
+    padding-top:.5em;
+    padding-bottom:.5em;
+    padding-left:1em;
+}
+
+.metrics-box {
+    font-size: 1.1em;
+    line-height: 130%;
+}
+
+.metrics-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: .25em;
+}
+
+.issue-description {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.candidate-issues {
+    margin-left: 2em;
+    border-left: solid 1px; LightGray;
+    padding-left: 5%;
+    margin-top: .2em;
+    margin-bottom: .2em;
+}
+
+.issue-block {
+    border: 1px solid LightGray;
+    padding-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin-bottom: .5em;
+}
+
+.issue-sev-high {
+    background-color: Pink;
+}
+
+.issue-sev-medium {
+    background-color: NavajoWhite;
+}
+
+.issue-sev-low {
+    background-color: LightCyan;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="metrics">
+    <div class="metrics-box bordered-box">
+        <div class="metrics-title">
+            Metrics:<br>
+        </div>
+        Total lines of code: <span id="loc">3122</span><br>
+        Total lines skipped (#nosec): <span id="nosec">0</span>
+    </div>
+</div>
+
+
+
+
+<br>
+<div id="results">
+    
+<div id="issue-0">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/703.html" target="_blank">CWE-703</a><br>
+    <b>File: </b><a href="./pygoat/challenge/management/commands/populate_challenge.py" target="_blank">./pygoat/challenge/management/commands/populate_challenge.py</a><br>
+    <b>Line number: </b>17<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+16	                    Challenge.objects.create(**challenge).save()
+17	                except:
+18	                    pass
+19	        except FileNotFoundError:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-1">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with the subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/challenge/views.py" target="_blank">./pygoat/challenge/views.py</a><br>
+    <b>Line number: </b>5<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+4	from django.views.decorators.csrf import csrf_exempt
+5	import subprocess
+6	from .utility import get_free_port
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-2">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/703.html" target="_blank">CWE-703</a><br>
+    <b>File: </b><a href="./pygoat/challenge/views.py" target="_blank">./pygoat/challenge/views.py</a><br>
+    <b>Line number: </b>42<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+41	            user_chall_exists = True
+42	        except:
+43	            pass
+44	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-3">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/challenge/views.py" target="_blank">./pygoat/challenge/views.py</a><br>
+    <b>Line number: </b>50<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+49	        command = f&quot;docker run -d -p {port}:{chal.docker_port} {chal.docker_image}&quot;
+50	        process = subprocess.Popen(command.split(&quot; &quot;), stdout=subprocess.PIPE)
+51	        output, error = process.communicate()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-4">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/challenge/views.py" target="_blank">./pygoat/challenge/views.py</a><br>
+    <b>Line number: </b>81<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+80	        command = f&quot;docker stop {user_chal.container_id}&quot;
+81	        process = subprocess.Popen(command.split(&quot; &quot;), stdout=subprocess.PIPE)
+82	        output, error = process.communicate()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-5">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/703.html" target="_blank">CWE-703</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/broken_auth_lab/app.py" target="_blank">./pygoat/dockerized_labs/broken_auth_lab/app.py</a><br>
+    <b>Line number: </b>119<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+118	                                email=users[username][&#x27;email&#x27;])
+119	    except:
+120	        pass
+121	    
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-6">
+<div class="issue-block issue-sev-high">
+    <b>flask_debug_true: </b> A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.<br>
+    <b>Test ID:</b> B201<br>
+    <b>Severity: </b>HIGH<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/94.html" target="_blank">CWE-94</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/broken_auth_lab/app.py" target="_blank">./pygoat/dockerized_labs/broken_auth_lab/app.py</a><br>
+    <b>Line number: </b>125<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b201_flask_debug_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b201_flask_debug_true.html</a><br>
+
+<div class="code">
+<pre>
+124	if __name__ == &#x27;__main__&#x27;:
+125	    app.run(host=&#x27;0.0.0.0&#x27;, port=5000, debug=True)  # Vulnerable: Debug mode enabled in production 
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-7">
+<div class="issue-block issue-sev-medium">
+    <b>hardcoded_bind_all_interfaces: </b> Possible binding to all interfaces.<br>
+    <b>Test ID:</b> B104<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/605.html" target="_blank">CWE-605</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/broken_auth_lab/app.py" target="_blank">./pygoat/dockerized_labs/broken_auth_lab/app.py</a><br>
+    <b>Line number: </b>125<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b104_hardcoded_bind_all_interfaces.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b104_hardcoded_bind_all_interfaces.html</a><br>
+
+<div class="code">
+<pre>
+124	if __name__ == &#x27;__main__&#x27;:
+125	    app.run(host=&#x27;0.0.0.0&#x27;, port=5000, debug=True)  # Vulnerable: Debug mode enabled in production 
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-8">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with pickle module.<br>
+    <b>Test ID:</b> B403<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/502.html" target="_blank">CWE-502</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/insec_des_lab/main.py" target="_blank">./pygoat/dockerized_labs/insec_des_lab/main.py</a><br>
+    <b>Line number: </b>2<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b403-import-pickle" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b403-import-pickle</a><br>
+
+<div class="code">
+<pre>
+1	from flask import Flask, render_template, request, make_response
+2	import pickle
+3	import base64
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-9">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.<br>
+    <b>Test ID:</b> B301<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/502.html" target="_blank">CWE-502</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/insec_des_lab/main.py" target="_blank">./pygoat/dockerized_labs/insec_des_lab/main.py</a><br>
+    <b>Line number: </b>36<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b301-pickle" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b301-pickle</a><br>
+
+<div class="code">
+<pre>
+35	        # Intentionally vulnerable deserialization, matching PyGoat
+36	        user = pickle.loads(decoded_data)
+37	        
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-10">
+<div class="issue-block issue-sev-medium">
+    <b>hardcoded_bind_all_interfaces: </b> Possible binding to all interfaces.<br>
+    <b>Test ID:</b> B104<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/605.html" target="_blank">CWE-605</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/insec_des_lab/main.py" target="_blank">./pygoat/dockerized_labs/insec_des_lab/main.py</a><br>
+    <b>Line number: </b>51<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b104_hardcoded_bind_all_interfaces.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b104_hardcoded_bind_all_interfaces.html</a><br>
+
+<div class="code">
+<pre>
+50	if __name__ == &#x27;__main__&#x27;:
+51	    app.run(host=&#x27;0.0.0.0&#x27;, port=8080)
+52	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-11">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'django-insecure-key-for-demonstration-only'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/dockerized_labs/sensitive_data_exposure/sensitive_data_lab/settings.py" target="_blank">./pygoat/dockerized_labs/sensitive_data_exposure/sensitive_data_lab/settings.py</a><br>
+    <b>Line number: </b>8<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+7	# SECURITY WARNING: keep the secret key used in production secret!
+8	SECRET_KEY = &#x27;django-insecure-key-for-demonstration-only&#x27;
+9	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-12">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with the subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/lab_code/test.py" target="_blank">./pygoat/introduction/lab_code/test.py</a><br>
+    <b>Line number: </b>18<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+17	&#x27;&#x27;&#x27;
+18	import subprocess
+19	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-13">
+<div class="issue-block issue-sev-medium">
+    <b>yaml_load: </b> Use of unsafe yaml load. Allows instantiation of arbitrary objects. Consider yaml.safe_load().<br>
+    <b>Test ID:</b> B506<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/lab_code/test.py" target="_blank">./pygoat/introduction/lab_code/test.py</a><br>
+    <b>Line number: </b>23<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b506_yaml_load.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b506_yaml_load.html</a><br>
+
+<div class="code">
+<pre>
+22	stream = open(&#x27;/home/fox/test.yaml&#x27;, &#x27;r&#x27;)
+23	data = yaml.load(stream)
+24	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-14">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with the subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/mitre.py" target="_blank">./pygoat/introduction/mitre.py</a><br>
+    <b>Line number: </b>3<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+2	import re
+3	import subprocess
+4	from hashlib import md5
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-15">
+<div class="issue-block issue-sev-high">
+    <b>hashlib: </b> Use of weak MD5 hash for security. Consider usedforsecurity=False<br>
+    <b>Test ID:</b> B324<br>
+    <b>Severity: </b>HIGH<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/327.html" target="_blank">CWE-327</a><br>
+    <b>File: </b><a href="./pygoat/introduction/mitre.py" target="_blank">./pygoat/introduction/mitre.py</a><br>
+    <b>Line number: </b>161<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b324_hashlib.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b324_hashlib.html</a><br>
+
+<div class="code">
+<pre>
+160	        username = request.POST.get(&#x27;username&#x27;)
+161	        password = md5(password.encode()).hexdigest()
+162	        User = CSRF_user_tbl.objects.filter(username=username, password=password)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-16">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Use of possibly insecure function - consider using safer ast.literal_eval.<br>
+    <b>Test ID:</b> B307<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/mitre.py" target="_blank">./pygoat/introduction/mitre.py</a><br>
+    <b>Line number: </b>218<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b307-eval" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b307-eval</a><br>
+
+<div class="code">
+<pre>
+217	        expression = request.POST.get(&#x27;expression&#x27;)
+218	        result = eval(expression)
+219	        return JsonResponse({&#x27;result&#x27;: result})
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-17">
+<div class="issue-block issue-sev-high">
+    <b>subprocess_popen_with_shell_equals_true: </b> subprocess call with shell=True identified, security issue.<br>
+    <b>Test ID:</b> B602<br>
+    <b>Severity: </b>HIGH<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/mitre.py" target="_blank">./pygoat/introduction/mitre.py</a><br>
+    <b>Line number: </b>233<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b602_subprocess_popen_with_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b602_subprocess_popen_with_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+232	def command_out(command):
+233	    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+234	    return process.communicate()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-18">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./pygoat/introduction/playground/A6/soln.py" target="_blank">./pygoat/introduction/playground/A6/soln.py</a><br>
+    <b>Line number: </b>9<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+8	        url = f&quot;https://pypi.org/pypi/{k[0]}/{k[1]}/json&quot;
+9	        response = requests.get(url)
+10	        response.raise_for_status()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-19">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./pygoat/introduction/playground/A6/utility.py" target="_blank">./pygoat/introduction/playground/A6/utility.py</a><br>
+    <b>Line number: </b>9<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+8	        url = f&quot;https://pypi.org/pypi/{k[0]}/{k[1]}/json&quot;
+9	        response = requests.get(url)
+10	        response.raise_for_status()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-20">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'admin'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/playground/A9/api.py" target="_blank">./pygoat/introduction/playground/A9/api.py</a><br>
+    <b>Line number: </b>17<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+16	        L.info(f&quot;POST request with username {username} and password {password}&quot;)
+17	        if username == &quot;admin&quot; and password == &quot;admin&quot;:
+18	            return JsonResponse({&quot;message&quot;:&quot;Loged in successfully&quot;, &quot;method&quot;:&quot;post&quot;},status = 200)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-21">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'admin'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/playground/A9/archive.py" target="_blank">./pygoat/introduction/playground/A9/archive.py</a><br>
+    <b>Line number: </b>17<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+16	        L.info(f&quot;POST request with username {username} and password {password}&quot;)
+17	        if username == &quot;admin&quot; and password == &quot;admin&quot;:
+18	            return JsonResponse({&quot;message&quot;:&quot;Loged in successfully&quot;, &quot;method&quot;:&quot;post&quot;},status = 200)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-22">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with pickle module.<br>
+    <b>Test ID:</b> B403<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/502.html" target="_blank">CWE-502</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>7<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b403-import-pickle" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b403-import-pickle</a><br>
+
+<div class="code">
+<pre>
+6	import os
+7	import pickle
+8	import json
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-23">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with the subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>12<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+11	import string
+12	import subprocess
+13	import uuid
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-24">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Using START_ELEMENT to parse untrusted XML data is known to be vulnerable to XML attacks. Replace START_ELEMENT with the equivalent defusedxml package, or make sure defusedxml.defuse_stdlib() is called.<br>
+    <b>Test ID:</b> B409<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>18<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b409-import-xml-pulldom" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b409-import-xml-pulldom</a><br>
+
+<div class="code">
+<pre>
+17	from random import randint
+18	from xml.dom.pulldom import START_ELEMENT, parseString
+19	from xml.sax import make_parser
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-25">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Using make_parser to parse untrusted XML data is known to be vulnerable to XML attacks. Replace make_parser with the equivalent defusedxml package, or make sure defusedxml.defuse_stdlib() is called.<br>
+    <b>Test ID:</b> B406<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>19<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b406-import-xml-sax" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b406-import-xml-sax</a><br>
+
+<div class="code">
+<pre>
+18	from xml.dom.pulldom import START_ELEMENT, parseString
+19	from xml.sax import make_parser
+20	from xml.sax.handler import feature_external_ges
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-26">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Using feature_external_ges to parse untrusted XML data is known to be vulnerable to XML attacks. Replace feature_external_ges with the equivalent defusedxml package, or make sure defusedxml.defuse_stdlib() is called.<br>
+    <b>Test ID:</b> B406<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>20<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b406-import-xml-sax" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b406-import-xml-sax</a><br>
+
+<div class="code">
+<pre>
+19	from xml.sax import make_parser
+20	from xml.sax.handler import feature_external_ges
+21	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-27">
+<div class="issue-block issue-sev-medium">
+    <b>hardcoded_sql_expressions: </b> Possible SQL injection vector through string-based query construction.<br>
+    <b>Test ID:</b> B608<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/89.html" target="_blank">CWE-89</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>159<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b608_hardcoded_sql_expressions.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b608_hardcoded_sql_expressions.html</a><br>
+
+<div class="code">
+<pre>
+158	
+159	                sql_query = &quot;SELECT * FROM introduction_login WHERE user=&#x27;&quot;+name+&quot;&#x27;AND password=&#x27;&quot;+password+&quot;&#x27;&quot;
+160	                print(sql_query)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-28">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Using xml.sax.make_parser to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.sax.make_parser with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called<br>
+    <b>Test ID:</b> B317<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>254<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b313-b320-xml-bad-sax" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b313-b320-xml-bad-sax</a><br>
+
+<div class="code">
+<pre>
+253	
+254	    parser = make_parser()
+255	    parser.setFeature(feature_external_ges, True)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-29">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Using xml.dom.pulldom.parseString to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.dom.pulldom.parseString with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called<br>
+    <b>Test ID:</b> B319<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>256<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b313-b320-xml-bad-pulldom" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b313-b320-xml-bad-pulldom</a><br>
+
+<div class="code">
+<pre>
+255	    parser.setFeature(feature_external_ges, True)
+256	    doc = parseString(request.body.decode(&#x27;utf-8&#x27;), parser=parser)
+257	    for event, node in doc:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-30">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>425<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+424	                # output=subprocess.check_output(command,shell=True,encoding=&quot;UTF-8&quot;)
+425	                process = subprocess.Popen(
+426	                    [command,domain],
+427	                    stdout=subprocess.PIPE, 
+428	                    stderr=subprocess.PIPE)
+429	                stdout, stderr = process.communicate()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-31">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Use of possibly insecure function - consider using safer ast.literal_eval.<br>
+    <b>Test ID:</b> B307<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>454<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b307-eval" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b307-eval</a><br>
+
+<div class="code">
+<pre>
+453	            try:
+454	                output = eval(val)
+455	            except:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-32">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/330.html" target="_blank">CWE-330</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>490<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+489	        email=request.GET.get(&#x27;email&#x27;)
+490	        otpN=randint(100,999)
+491	        if email and otpN:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-33">
+<div class="issue-block issue-sev-medium">
+    <b>yaml_load: </b> Use of unsafe yaml load. Allows instantiation of arbitrary objects. Consider yaml.safe_load().<br>
+    <b>Test ID:</b> B506<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/20.html" target="_blank">CWE-20</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>554<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b506_yaml_load.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b506_yaml_load.html</a><br>
+
+<div class="code">
+<pre>
+553	                try :
+554	                    data = yaml.load(file,yaml.Loader)
+555	                    
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-34">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/330.html" target="_blank">CWE-330</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>674<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+673	def gentckt():
+674	    return (&#x27;&#x27;.join(random.choices(string.ascii_uppercase + string.ascii_lowercase, k=10)))
+675	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-35">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'jacktheripper'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>760<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+759	                })
+760	        elif (name==&#x27;jack&#x27; and password==&#x27;jacktheripper&#x27;): # Will implement hashing here
+761	            html = render(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-36">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'jacktheripper'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>800<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+799	                })
+800	        elif ( name==&#x27;jack&#x27; and password==&#x27;jacktheripper&#x27;): # Will implement hashing here
+801	            html = render(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-37">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'reaper'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>825<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+824	
+825	        if username == &#x27;John&#x27; and password == &#x27;reaper&#x27;:
+826	            return render(request,&#x27;Lab_2021/A1_BrokenAccessControl/broken_access_lab_3.html&#x27;, {&#x27;loggedin&#x27;:True, &#x27;admin&#x27;: False})
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-38">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'admin_pass'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>827<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+826	            return render(request,&#x27;Lab_2021/A1_BrokenAccessControl/broken_access_lab_3.html&#x27;, {&#x27;loggedin&#x27;:True, &#x27;admin&#x27;: False})
+827	        elif username == &#x27;admin&#x27; and password == &#x27;admin_pass&#x27;:
+828	            return render(request,&#x27;Lab_2021/A1_BrokenAccessControl/broken_access_lab_3.html&#x27;, {&#x27;loggedin&#x27;:True, &#x27;admin&#x27;: True})
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-39">
+<div class="issue-block issue-sev-medium">
+    <b>hardcoded_sql_expressions: </b> Possible SQL injection vector through string-based query construction.<br>
+    <b>Test ID:</b> B608<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/89.html" target="_blank">CWE-89</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>858<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b608_hardcoded_sql_expressions.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b608_hardcoded_sql_expressions.html</a><br>
+
+<div class="code">
+<pre>
+857	        if name:
+858	            sql_query = &quot;SELECT * FROM introduction_sql_lab_table WHERE id=&#x27;&quot;+name+&quot;&#x27;AND password=&#x27;&quot;+password+&quot;&#x27;&quot;
+859	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-40">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '65079b006e85a7e798abecb99e47c154'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>860<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+859	
+860	            sql_instance = sql_lab_table(id=&quot;admin&quot;, password=&quot;65079b006e85a7e798abecb99e47c154&quot;)
+861	            sql_instance.save()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-41">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'jack'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>862<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+861	            sql_instance.save()
+862	            sql_instance = sql_lab_table(id=&quot;jack&quot;, password=&quot;jack&quot;)
+863	            sql_instance.save()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-42">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'b4f945433ea4c369c12741f62a23ccc0'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>864<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+863	            sql_instance.save()
+864	            sql_instance = sql_lab_table(id=&quot;slinky&quot;, password=&quot;b4f945433ea4c369c12741f62a23ccc0&quot;)
+865	            sql_instance.save()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-43">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'f8d1ce191319ea8f4d1d26e65e130dd5'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>866<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+865	            sql_instance.save()
+866	            sql_instance = sql_lab_table(id=&quot;bloke&quot;, password=&quot;f8d1ce191319ea8f4d1d26e65e130dd5&quot;)
+867	            sql_instance.save()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-44">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>957<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+956	        try:
+957	            response = requests.get(url)
+958	            return render(request, &quot;Lab/ssrf/ssrf_lab2.html&quot;, {&quot;response&quot;: response.content.decode()})
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-45">
+<div class="issue-block issue-sev-high">
+    <b>hashlib: </b> Use of weak MD5 hash for security. Consider usedforsecurity=False<br>
+    <b>Test ID:</b> B324<br>
+    <b>Severity: </b>HIGH<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/327.html" target="_blank">CWE-327</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>1020<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b324_hashlib.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b324_hashlib.html</a><br>
+
+<div class="code">
+<pre>
+1019	            try:
+1020	                password = md5(password.encode()).hexdigest()
+1021	                user = CF_user.objects.filter(username=username,password=password).first()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-46">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'P@$$w0rd'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>1066<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1065	            try:
+1066	                if username == &quot;User&quot; and password == &quot;P@$$w0rd&quot;:
+1067	                    expire = datetime.datetime.now() + datetime.timedelta(minutes=60)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-47">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/703.html" target="_blank">CWE-703</a><br>
+    <b>File: </b><a href="./pygoat/introduction/views.py" target="_blank">./pygoat/introduction/views.py</a><br>
+    <b>Line number: </b>1180<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+1179	                return render(request,&quot;Lab_2021/A7_auth_failure/lab3.html&quot;, {&quot;username&quot;:session.user,&quot;success&quot;:True})
+1180	        except:
+1181	            pass
+1182	        return render(request, &quot;Lab_2021/A7_auth_failure/lab3.html&quot;)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-48">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'lr66%-a!$km5ed@n5ug!tya5bv!0(yqwa1tn!q%0%3m2nh%oml'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/pygoat/settings.py" target="_blank">./pygoat/pygoat/settings.py</a><br>
+    <b>Line number: </b>25<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+24	# SECURITY WARNING: keep the secret key used in production secret!
+25	SECRET_KEY = &#x27;lr66%-a!$km5ed@n5ug!tya5bv!0(yqwa1tn!q%0%3m2nh%oml&#x27;
+26	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-49">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'PYGOAT'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./pygoat/pygoat/settings.py" target="_blank">./pygoat/pygoat/settings.py</a><br>
+    <b>Line number: </b>171<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+170	
+171	SECRET_COOKIE_KEY = &quot;PYGOAT&quot;
+172	CSRF_TRUSTED_ORIGINS = [&quot;http://127.0.0.1:8000&quot;,&quot;http://0.0.0.0:8000&quot;,&quot;http://172.16.189.10&quot;]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-50">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with the subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/uninstaller.py" target="_blank">./pygoat/uninstaller.py</a><br>
+    <b>Line number: </b>5<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+4	import platform
+5	import subprocess
+6	import sys
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-51">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/uninstaller.py" target="_blank">./pygoat/uninstaller.py</a><br>
+    <b>Line number: </b>41<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+40	            pip_v = &quot;pip3&quot; if (which(&#x27;pip3&#x27;) is not None) else &quot;pip&quot;
+41	            subprocess.run([pip_v,
+42	                            &quot;install&quot;,
+43	                            &quot;--upgrade&quot;,
+44	                            &quot;pip&quot;],
+45	                           stdout=subprocess.DEVNULL,
+46	                           stderr=subprocess.DEVNULL)
+47	        subprocess.check_call([sys.executable,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-52">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/uninstaller.py" target="_blank">./pygoat/uninstaller.py</a><br>
+    <b>Line number: </b>47<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+46	                           stderr=subprocess.DEVNULL)
+47	        subprocess.check_call([sys.executable,
+48	                               &quot;-m&quot;,
+49	                               &quot;pip&quot;,
+50	                               &quot;uninstall&quot;,
+51	                               &quot;-yr&quot;,
+52	                               &quot;requirements.txt&quot;])
+53	    except subprocess.CalledProcessError:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-53">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/78.html" target="_blank">CWE-78</a><br>
+    <b>File: </b><a href="./pygoat/uninstaller.py" target="_blank">./pygoat/uninstaller.py</a><br>
+    <b>Line number: </b>62<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+61	    try:
+62	        subprocess.check_call([sys.executable,
+63	                               &quot;-m&quot;,
+64	                               &quot;pip&quot;,
+65	                               &quot;uninstall&quot;,
+66	                               &quot;-y&quot;,
+67	                               &quot;pip&quot;])
+68	    except subprocess.CalledProcessError:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
