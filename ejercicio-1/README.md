@@ -85,6 +85,23 @@ Evitamos concatenar command con domain y en su lugar enviamos a subprocess.Popen
 
 #### 4.2.3. Mapeo con OWASP Top 10
 
-El CWE-78, "OS Command Injection", se relaciona directamente con la categoría A03:2025 - Inyecciones del Top 10 de OWASP, ya que entra dentro de la definición de Ijection: *Cuando se envían datos no confiables a un intérprete como parte de un comando o consulta.* 
+El CWE-78, "OS Command Injection", se relaciona directamente con la categoría A05:2025 - Inyección, del Top 10 de OWASP, ya que entra dentro de la definición de Ijection: *Cuando se envían datos no confiables a un intérprete como parte de un comando o consulta.* 
 
-#### 4.3. CWE-78 — OS Command Injection
+#### 4.3. CWE-502 Deserialization of Untrusted Data
+
+![Ejercicio](../resources/imgs/1/07-cwe-502.png)
+
+#### 4.3.1. Descripción del CWE-502
+```txt
+El producto deserializa datos no confiables sin garantizar suficientemente que los datos resultantes sean válidos.
+```
+
+#### 4.3.2. Remediación
+
+En lugar de utilizar picke.loads, utilizamos la librería json:
+
+![Ejercicio](../resources/imgs/1/08-cwe-502-remediacion.png)
+
+#### 4.3.3. Mapeo con OWASP Top 10
+
+El CWE-502 "Deserialización de datos no confiables" se corresponde con OWASP Top 10 2025 – A08: Fallas de integridad de software y datos, ya que la aplicación deserializa entradas no confiables de una manera que puede permitir violaciones de integridad y ejecución de código arbitrario.
