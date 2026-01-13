@@ -54,15 +54,19 @@ pipeline {
 
     stage('SCA - Dependency-Track') {
       steps {
-          dependencyTrackPublisher(
-              artifact: 'dependency-track-bom.xml',
-              projectName: 'pygoat',
-              projectVersion: '1.0.0',
-              dependencyTrackApiKey: credentials('dependency-track-api-key'),
-              dependencyTrackUrl: 'http://localhost:8081',
-              synchronous: false,
-              autoCreateProjects: true
-          )
+          withCredentials([
+            string(credentialsId: 'dependency-track-api-key', variable: 'DTRACK_API_KEY')
+          ]) {
+              dependencyTrackPublisher(
+                  artifact: 'dependency-track-bom.xml',
+                  dependencyTrackUrl: 'http://localhost:8081',
+                  dependencyTrackApiKey: DTRACK_API_KEY,
+                  projectName: 'pygoat',
+                  projectVersion: '1.0.0',
+                  autoCreateProjects: true,
+                  synchronous: false
+              )
+          }        
       }
     }
 
