@@ -29,7 +29,6 @@ pipeline {
     stage('Instalacion Bandit') {
       steps {
         sh '''
-          ls -la
           python -V
           python -m venv "../${VENV}"
           . "../${VENV}/bin/activate"
@@ -41,8 +40,7 @@ pipeline {
 
     stage('Bandit SAST') {
       steps {
-        sh '''
-          ls -la        
+        sh '''      
           . "../${VENV}/bin/activate"
           mkdir -p reports
           bandit -r . --exit-zero -f txt -o reports/bandit_report.txt
@@ -50,6 +48,17 @@ pipeline {
           bandit -r . --exit-zero -f json -o reports/bandit_report.json
         '''
       }
+    }
+
+    stage('Preparando dependencias') {
+      steps {
+        sh '''      
+          . "../${VENV}/bin/activate"
+          pip install -r requirements.txt
+          pip install cyclonedx-bom
+          cyclonedx-py -o dependency-track-bom.xml .
+        '''
+      }      
     }
 
     stage('SCA - Dependency-Track') {
