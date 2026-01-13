@@ -47,7 +47,13 @@ Seguir los [pasos para montar el entorno dependency-track](../resources/dependen
 
 ![Ejercicio](../resources/imgs/2/11-jenkins-credentials-3.png)
 
-## 2.4. Creamos y configuramos el pipeline
+## 2.4. Instalamos el plugin dependency-track en Jenkins
+
+- Abrimos la opción "Manage Jenkins" (icono del engranage), "Plugins",  "Available Plugins" y buscamos "dependency-track". Marcamos e Instalamos:
+
+![Ejercicio](../resources/imgs/2/12-jenkins-plugin.png)
+
+## 2.5. Creamos y configuramos el pipeline
 
 ### 2.4.1. Crear un pipeline
 

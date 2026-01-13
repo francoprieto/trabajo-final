@@ -9,9 +9,7 @@ pipeline {
   }
 
   environment {
-    VENV = '.venv'
-    DT_URL = 'http://localhost:8081'
-    DT_API_KEY = credentials('dependency-track-api-key')    
+    VENV = '.venv' 
   }
 
   stages {
@@ -55,16 +53,17 @@ pipeline {
     }
 
     stage('SCA - Dependency-Track') {
-        steps {
-            sh '''
-            curl -X POST "$DT_URL/api/v1/bom" \
-              -H "X-Api-Key: $DT_API_KEY" \
-              -F "projectName=pygoat" \
-              -F "projectVersion=1.0.0" \
-              -F "autoCreate=true" \
-              -F "bom=@dependency-track-bom.xml"
-            '''
-        }
+      steps {
+          dependencyTrackPublisher(
+              artifact: 'dependency-track-bom.xml',
+              projectName: 'pygoat',
+              projectVersion: '1.0.0',
+              dependencyTrackApiKey: credentials('dependency-track-api-key'),
+              dependencyTrackUrl: 'http://localhost:8081',
+              synchronous: false,
+              autoCreateProjects: true
+          )
+      }
     }
 
   }
