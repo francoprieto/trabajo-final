@@ -54,9 +54,8 @@ pipeline {
       steps {
         sh '''      
           . "../${VENV}/bin/activate"
-          pip install -r requirements.txt
           pip install cyclonedx-bom
-          cyclonedx-py -o dependency-track-bom.xml .
+          cyclonedx-py requirements -o dependency-track-bom.xml 
         '''
       }      
     }
