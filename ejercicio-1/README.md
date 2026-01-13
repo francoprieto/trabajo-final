@@ -3,14 +3,14 @@
 ![Ejercicio](../resources/imgs/ejercicio1-enunciado.png)
 
 
-### 1.1. Clonamos el repositorio pygoat
+## 1.1. Clonamos el repositorio pygoat
 ```bash
 git clone https://github.com/adeyosemanputra/pygoat
 ```
 ![Ejercicio](../resources/imgs/1/00-pygoat-clone.png)
 
 
-### 1.2. Configuramos el entorno e instalamos bandit:
+## 1.2. Configuramos el entorno e instalamos bandit:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -19,7 +19,7 @@ pip install bandit
 ![Ejercicio](../resources/imgs/1/01-bandit-install.png)
 
 
-### 1.3. Ejecutamos el analisis exportando el resultado a txt, json y html
+## 1.3. Ejecutamos el analisis exportando el resultado a txt, json y html
 ```bash
 mkdir bandit_reports
 bandit -r ./pygoat -f html -o bandit_reports/bandit_report.html
@@ -28,9 +28,9 @@ bandit -r ./pygoat -f txt -o bandit_reports/bandit_report.txt
 ```
 ![Ejercicio](../resources/imgs/1/02-bandit-analisis.png)
 
-### 1.4. Verificamos el resultado, y seleccionamos las vulnerabilidades a remediar correspondientes a los CWEs requeridos por el ejercicio:
+## 1.4. Verificamos el resultado, y seleccionamos las vulnerabilidades a remediar correspondientes a los CWEs requeridos por el ejercicio:
 
-#### 1.4.1. CWE-327 — Use of a Broken or Risky Cryptographic Algorithm
+### 1.4.1. CWE-327 — Use of a Broken or Risky Cryptographic Algorithm
 
 ![Ejercicio](../resources/imgs/1/03-cwe-327.png)
 
@@ -51,7 +51,7 @@ Fuente: https://cwe.mitre.org/data/definitions/327.html
 
 #### 1.4.1.2. Remediación
 
-Cambiamos el algoritmo para generación de hash de MD5 a SHA256:
+Se debe utilizar un algoritmo mas robusto para la generación de hash, por lo tanto cambiamos el algoritmo de MD5 a SHA256:
 
 ![Ejercicio](../resources/imgs/1/04-cwe-327-remediacion.png)
 
@@ -59,7 +59,7 @@ Cambiamos el algoritmo para generación de hash de MD5 a SHA256:
 
 El CWE-327, "Uso de un algoritmo criptográfico defectuoso o riesgoso", se relaciona directamente con la categoría **"A04:2025 - Fallos criptográficos"** del Top 10 de OWASP, ya que abarca algoritmos débiles, aleatoriedad insuficiente y criptografía defectuosa que provoca la exposición de datos. 
 
-#### 1.4.2. CWE-78 — OS Command Injection
+### 1.4.2. CWE-78 — OS Command Injection
 
 ![Ejercicio](../resources/imgs/1/05-cwe-78.png)
 
@@ -73,7 +73,7 @@ Fuente: https://cwe.mitre.org/data/definitions/78.html
 
 #### 1.4.2.2. Remediación
 
-Evitamos concatenar command con domain y en su lugar enviamos a subprocess.Popen como un array:
+Se debe validar el comando introducido o tratarlo, en este caso eliminamos la concatenación de las variables command con domain y en su lugar enviamos a subprocess.Popen un array con los parámetros separados:
 
 ![Ejercicio](../resources/imgs/1/06-cwe-78-remediacion.png)
 
@@ -81,7 +81,7 @@ Evitamos concatenar command con domain y en su lugar enviamos a subprocess.Popen
 
 El CWE-78, "OS Command Injection", se relaciona directamente con la categoría **"A05:2025 - Inyección"**, del Top 10 de OWASP, ya que entra dentro de la definición de Ijection: *Cuando se envían datos no confiables a un intérprete como parte de un comando o consulta.* 
 
-#### 1.4.3. CWE-502 Deserialization of Untrusted Data
+### 1.4.3. CWE-502 Deserialization of Untrusted Data
 
 ![Ejercicio](../resources/imgs/1/07-cwe-502.png)
 
@@ -93,7 +93,7 @@ Fuente: https://cwe.mitre.org/data/definitions/502.html
 
 #### 1.4.3.2. Remediación
 
-En lugar de utilizar picke.loads, utilizamos la librería json:
+Se debe utilizar un método de deserialización de datos mas robusto, por lo tanto en lugar de utilizar picke.loads, utilizamos la librería json:
 
 ![Ejercicio](../resources/imgs/1/08-cwe-502-remediacion.png)
 
@@ -101,7 +101,7 @@ En lugar de utilizar picke.loads, utilizamos la librería json:
 
 El CWE-502 "Deserialización de datos no confiables" se corresponde con OWASP Top 10 **"A08:2025 - Fallas de integridad de software y datos"**, ya que la aplicación deserializa entradas no confiables de una manera que puede permitir violaciones de integridad y ejecución de código arbitrario.
 
-#### 1.4.4. CWE-259 Use of Hard-coded Password
+### 1.4.4. CWE-259 Use of Hard-coded Password
 
 ![Ejercicio](../resources/imgs/1/09-cwe-259.png)
 
@@ -112,8 +112,9 @@ El CWE-502 "Deserialización de datos no confiables" se corresponde con OWASP To
 Fuente: https://cwe.mitre.org/data/definitions/259.html
 
 #### 1.4.4.2. Remediación
+Se debe obtener las credenciales desde un gestor de secretos o en todo caso un repositorio de configuraciones.
 
-Se obtqiene el valor para app.secret_key desde un archivo config.json:
+En este caso, en lugar de tener un valor *en duro* para app.secret_key, lo obtenemos desde un archivo config.json:
 
 ![Ejercicio](../resources/imgs/1/10-cwe-259-remediacion.png)
 
@@ -121,7 +122,7 @@ Se obtqiene el valor para app.secret_key desde un archivo config.json:
 
 El CWE-259 "Uso de password en duro" se corresponde con OWASP Top 10 **"A07:2025 - Fallos de autenticación"**, ya que la aplicación integra credenciales estáticas directamente en el código fuente, lo que permite omitir la autenticación y evita la administración y rotación seguras de credenciales.
 
-#### 1.4.5. CWE-330 Use of Insufficiently Random Values
+### 1.4.5. CWE-330 Use of Insufficiently Random Values
 
 ![Ejercicio](../resources/imgs/1/11-cwe-330.png)
 
@@ -133,10 +134,11 @@ Fuente: https://cwe.mitre.org/data/definitions/330.html
 
 #### 1.4.5.2. Remediación
 
-Se cambia la libreria random por la librería secrets:
+Se debe utilizar un método mas robusto para generar valores aleatorios.
+En este caso, la librería random puede generar valores predecibles, por lo que cambiamos la libreria por secrets:
 
 ![Ejercicio](../resources/imgs/1/12-cwe-330-remediacion.png)
 
 #### 1.4.5.3. Mapeo con OWASP Top 10
 
-El CWE-330 "CUse of Insufficiently Random Values" se corresponde con OWASP Top 10 **"A04:2025 - Fallos criptográficos"** del Top 10 de OWASP, ya que los generadores pseudoaleatorios estándar (como random) no son adecuados para fines de seguridad o criptográficos.
+El CWE-330 "Use of Insufficiently Random Values" se corresponde con OWASP Top 10 **"A04:2025 - Fallos criptográficos"** del Top 10 de OWASP, ya que los generadores pseudoaleatorios estándar (como random) no son adecuados para fines de seguridad o criptográficos.

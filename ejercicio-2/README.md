@@ -4,7 +4,17 @@
 
 ## 2.1. Montamos una instancia de Jenkins
 
-Seguir los "pasos de para instalar y ejecutar jenkins en docker".
+Seguir los [pasos para montar una insancia de Jenkins](../resources/jenkins/README.md)
+
+## 2.2. Montamos el entorno Dpendency-Track
+Seguir los [pasos para montar el entorno dependency-track](../resources/dependency-track/README.md)
+
+### 2.2.1. Configuramos el proyecto en dependency-track
+
+- Ingresamos como admin al Dependency-Track ( http://localhost:8082 )
+- Vamos a la opción "Projects", "Create Project +" y completamos los datos de la siguiente manera:
+
+![Ejercicio](../resources/imgs/2/06-crear-proyecto.png)
 
 ## 2.2. Crear y configurar el pipeline
 
