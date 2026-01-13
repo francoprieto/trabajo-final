@@ -9,16 +9,47 @@ Seguir los [pasos para montar una insancia de Jenkins](../resources/jenkins/READ
 ## 2.2. Montamos el entorno Dpendency-Track
 Seguir los [pasos para montar el entorno dependency-track](../resources/dependency-track/README.md)
 
-### 2.2.1. Configuramos el proyecto en dependency-track
+### 2.2.1. Configuramos el proyecto *pygoat* en dependency-track
 
 - Ingresamos como admin al Dependency-Track ( http://localhost:8082 )
 - Vamos a la opción "Projects", "Create Project +" y completamos los datos de la siguiente manera:
 
 ![Ejercicio](../resources/imgs/2/06-crear-proyecto.png)
 
-## 2.2. Crear y configurar el pipeline
 
-### 2.2.1. Crear un pipeline
+### 2.2.2. Configuramos Api-Key en dependency-track
+
+- Ingresamos a la opción "Administration", "Access Management" y luego "Teams"
+
+![Ejercicio](../resources/imgs/2/07-crear-api-key-1.png)
+
+- Hacemos click en "Administrators" y luego en el signo "+" de API KEYS, automáticamente se generará una:
+
+![Ejercicio](../resources/imgs/2/08-crear-api-key-2.png)
+
+***OBS:*** Es muy importante copiar y guardar esta API-KEY
+
+## 2.3. Configuramos las credenciales dependency-track en Jenkins
+
+- Abrimos la opción "Manage Jenkins" (icono del engranage) y luego "Credentials"
+
+![Ejercicio](../resources/imgs/2/09-jenkins-credentials-1.png)
+
+- Vamos a "System", "Global Credentials (unrestricted)" y luego "+ Add Credentials"
+
+![Ejercicio](../resources/imgs/2/10-jenkins-credentials-2.png)
+
+- El formulario completamos de la siguiente manera:
+    - En "Kind" seleccionamos "secret text"
+    - En "Secret" completamos con la API-KEY de dependency-track (Paso 2.3)
+    - En "ID" completamos con "dependency-track-api-key"
+    - Hacemos click en "Create"
+
+![Ejercicio](../resources/imgs/2/11-jenkins-credentials-3.png)
+
+## 2.4. Creamos y configuramos el pipeline
+
+### 2.4.1. Crear un pipeline
 
 Creamos un Item llamado "ejercicio2" de tipo pipeline.
 ![Ejercicio](../resources/imgs/2/01-crear-pipeline.png)
