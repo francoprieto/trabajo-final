@@ -55,7 +55,7 @@ pipeline {
         sh '''      
           . "../${VENV}/bin/activate"
           pip install cyclonedx-bom
-          cyclonedx-py requirements -o dependency-track-bom.xml 
+          cyclonedx-py requirements -o ../dependency-track-bom.xml 
         '''
       }      
     }
@@ -66,7 +66,7 @@ pipeline {
             string(credentialsId: 'dependency-track-api-key', variable: 'DTRACK_API_KEY')
           ]) {
               dependencyTrackPublisher(
-                  artifact: 'dependency-track-bom.xml',
+                  artifact: '../dependency-track-bom.xml',
                   dependencyTrackUrl: 'http://localhost:8081',
                   dependencyTrackApiKey: DTRACK_API_KEY,
                   projectName: 'pygoat',
