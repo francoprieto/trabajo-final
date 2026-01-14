@@ -4,7 +4,7 @@ cd ./jenkins
 docker build -t myjenkins-blueocean:2.516.3-1 .
 
 cd ../python
-docker build -t my-python:1.0.0 .
+docker build -t my-python:1.1.0 .
 
 cd ..
 
