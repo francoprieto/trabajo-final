@@ -6,18 +6,9 @@
 
 Seguir los [pasos para montar e iniciar los contenedores](../resources/docker/README.md)
 
-## 2.2. Montamos el entorno Dpendency-Track
-Seguir los [pasos para montar el entorno dependency-track](../resources/dependency-track/README.md)
+## 2.2. Configuramos Api-Key en dependency-track
 
-### 2.2.1. Configuramos el proyecto *pygoat* en dependency-track
-
-- Ingresamos como admin al Dependency-Track ( http://localhost:8082 )
-- Vamos a la opción "Projects", "Create Project +" y completamos los datos de la siguiente manera:
-
-![Ejercicio](../resources/imgs/2/06-crear-proyecto.png)
-
-
-### 2.2.2. Configuramos Api-Key en dependency-track
+- Ingresamos a dependency-track en  http://localhost:8082 con el Usuario: admin, Password: admin y luego realizamos el proceso de cambio de password por defecto
 
 - Ingresamos a la opción "Administration", "Access Management" y luego "Teams"
 
@@ -30,6 +21,8 @@ Seguir los [pasos para montar el entorno dependency-track](../resources/dependen
 ***OBS:*** Es muy importante copiar y guardar esta API-KEY
 
 ## 2.3. Configuramos las credenciales dependency-track en Jenkins
+
+- Ingresamos e inicializamos la instancia de Jenkins http://localhost:8080
 
 - Abrimos la opción "Manage Jenkins" (icono del engranage) y luego "Credentials"
 
@@ -80,5 +73,3 @@ En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM"
 
 ![Ejercicio](../resources/imgs/2/05-apuntar-jenkinsfile-3.png)
 
-
-3. Ejecutar el pipeline y verificar el "bandit_report.json" resultante.
