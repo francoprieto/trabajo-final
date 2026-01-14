@@ -2,9 +2,9 @@
 
 ![Ejercicio](../resources/imgs/ejercicio2-enunciado.png)
 
-## 2.1. Montamos una instancia de Jenkins
+## 2.1. Montamos las instancias de Jenkins y Dependency-Track
 
-Seguir los [pasos para montar una insancia de Jenkins](../resources/jenkins/README.md)
+Seguir los [pasos para montar e iniciar los contenedores](../resources/docker/README.md)
 
 ## 2.2. Montamos el entorno Dpendency-Track
 Seguir los [pasos para montar el entorno dependency-track](../resources/dependency-track/README.md)
