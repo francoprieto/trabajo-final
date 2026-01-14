@@ -81,8 +81,8 @@ pipeline {
     stage('Analisis Secretos - GitLeaks') {
       steps {
         sh '''
-          apt-get update >/dev/null
-          apt-get install -y --no-install-recommends ca-certificates curl tar >/dev/null
+          sudo apt-get update >/dev/null
+          sudo apt-get install -y --no-install-recommends ca-certificates curl tar >/dev/null
           curl -sSL -o /tmp/gitleaks.tar.gz "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_x64.tar.gz"
           tar -xzf /tmp/gitleaks.tar.gz -C /usr/local/bin gitleaks
           chmod +x /usr/local/bin/gitleaks   
