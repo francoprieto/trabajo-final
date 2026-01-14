@@ -1,4 +1,8 @@
 services:
+
+  # =========================
+  # Ambiente Dependency-Track
+  # =========================
   apiserver:
     image: dependencytrack/apiserver
     container_name: "dt-apiserver" 
@@ -53,7 +57,10 @@ services:
     - "postgres-data:/var/lib/postgresql/data"
     restart: unless-stopped
 
-  docker:
+  # =========================
+  # Jenkins
+  # =========================
+  jenkins:
     image: myjenkins-blueocean:2.516.3-1
     container_name: "jenkins-blueocean"
     volumes:
@@ -66,7 +73,58 @@ services:
       - "50000:50000"
     restart: on-failure
 
+  # =========================
+  # DefectDojo
+  # =========================
+  defectdojo-postgres:
+    image: postgres:15-alpine
+    container_name: defectdojo-postgres
+    environment:
+      POSTGRES_DB: defectdojo
+      POSTGRES_USER: defectdojo
+      POSTGRES_PASSWORD: defectdojo
+    volumes:
+      - defectdojo-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  defectdojo-redis:
+    image: redis:7-alpine
+    container_name: defectdojo-redis
+    restart: unless-stopped  
+
+  uwsgi:
+    image: defectdojo/defectdojo-django:latest
+    container_name: defectdojo
+    depends_on:
+      - defectdojo-postgres
+      - defectdojo-redis
+    environment:
+      DD_DATABASE_ENGINE: django.db.backends.postgresql
+      DD_DATABASE_HOST: defectdojo-postgres
+      DD_DATABASE_NAME: defectdojo
+      DD_DATABASE_USER: defectdojo
+      DD_DATABASE_PASSWORD: defectdojo
+      DD_DATABASE_PORT: 5432
+      DD_SECRET_KEY: super-secret-change-me
+      DD_DEBUG: "False"
+      DD_ALLOWED_HOSTS: "*"
+      DD_CELERY_BROKER_URL: redis://defectdojo-redis:6379/0
+    volumes:
+      - defectdojo-media:/app/media
+    restart: unless-stopped
+
+  defectdojo-nginx:
+    image: defectdojo/defectdojo-nginx:latest
+    container_name: defectdojo-nginx
+    depends_on:
+      - uwsgi
+    ports:
+      - "8083:8080"
+    restart: unless-stopped
+
 volumes:
   jenkins-data: {}
   dtrack-data: {}
   postgres-data: {}
+  defectdojo-postgres-data: {}
+  defectdojo-media: {}  

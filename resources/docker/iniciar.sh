@@ -12,3 +12,19 @@ cd ..
 export DOCKER_GID=$(getent group docker | awk -F: '{print $3}')
 
 docker compose up -d
+
+# Esperamos para crear el usuario
+sleep 5
+
+# Inicializamos la DB de DefectDojo
+docker compose exec uwsgi python manage.py migrate --noinput
+
+read -rp "Es la primera vez? Desea generar el superusuario para DefectDojo? (s=sí, n=no.. no por defecto)" gensu
+if [ "$gensu" == "s" ]; then
+    echo "Generación de administrador en DefectDojo..."
+    docker compose exec uwsgi python manage.py createsuperuser
+fi;
+
+sleep 5
+echo "------------------ Lista de contenedores ------------------"
+docker ps --all

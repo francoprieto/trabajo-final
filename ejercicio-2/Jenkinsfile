@@ -1,4 +1,6 @@
 pipeline {
+  // Utilizamos la imagen my-python (ver resources/docker/python/Dockerfile)
+  // que tiene instalado curl, tar y git, herramientas necesarias para gitleaks
   agent {
     docker { image 'my-python:1.1.0' }
   }
@@ -13,18 +15,21 @@ pipeline {
 
   stages {
 
+    // Etapa para eliminar los archivos del workspace
     stage('Limpieza Workspace') {
       steps {
         cleanWs()
       }
     }
 
+    // Etapa para clonar la rama master de pygoat
     stage('Checkout') {
       steps {
         git url: 'https://github.com/adeyosemanputra/pygoat.git', branch: 'master'
       }
     }
 
+    // Etapa para instalar bandit
     stage('Instalacion Bandit') {
       steps {
         sh '''
@@ -37,6 +42,7 @@ pipeline {
       }
     }
 
+    // Etapa para analizar pygoat con bandit y guardar los reportes en el directorio reports
     stage('Bandit SAST') {
       steps {
         sh '''      
@@ -49,6 +55,7 @@ pipeline {
       }
     }
 
+    // Etapa para instalar cyclonedx-bom y generar el archivo dependency-track-bom.xml necesario para dependency-track
     stage('Preparando dependencias') {
       steps {
         sh '''      
@@ -59,6 +66,7 @@ pipeline {
       }      
     }
 
+    // Etapa para envío de información de dependencia a dependency-track para su análisis
     stage('SCA - Dependency-Track') {
       steps {
           withCredentials([
@@ -77,6 +85,8 @@ pipeline {
       }
     }
 
+    // Etapa de descarga y ejecución de análisis de secretos con GitLeaks
+    // El reporte también se guarda en el directorio reports
     stage('Analisis Secretos - GitLeaks') {
       steps {
         sh '''
@@ -99,6 +109,7 @@ pipeline {
 
   }
 
+  // Archivamos todos los reportes que se encuentren dentro del directorio reports
   post {
     always {
       archiveArtifacts artifacts: 'reports/*', fingerprint: true

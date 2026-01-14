@@ -48,18 +48,12 @@ Seguir los [pasos para montar e iniciar los contenedores](../resources/docker/RE
 
 ## 2.5. Creamos y configuramos el pipeline
 
-### 2.4.1. Crear un pipeline
+### 2.5.1. Crear un pipeline
 
 Creamos un Item llamado "ejercicio2" de tipo pipeline.
 ![Ejercicio](../resources/imgs/2/01-crear-pipeline.png)
 
-### 2.2.2. Apuntar a proyecto github
-Marcamos la opción "GitHub project" y en "Project url" completamos con:
-https://github.com/francoprieto/trabajo-final.git/
-
-![Ejercicio](../resources/imgs/2/02-apuntar-github.png)
-
-### 2.2.3. Apuntar a Jenkinsfile
+### 2.5.2. Apuntar a Jenkinsfile
 En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM", y allí completamos con 
 - "Repository URL" con https://github.com/francoprieto/trabajo-final.git
 
