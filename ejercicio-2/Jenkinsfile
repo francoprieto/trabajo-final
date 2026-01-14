@@ -67,7 +67,7 @@ pipeline {
           ]) {
               dependencyTrackPublisher(
                   artifact: '../dependency-track-bom.xml',
-                  dependencyTrackUrl: 'http://apiserver:8081',
+                  dependencyTrackUrl: 'http://dt-apiserver:8080',
                   dependencyTrackApiKey: DTRACK_API_KEY,
                   projectName: 'pygoat',
                   projectVersion: '1.0.0',

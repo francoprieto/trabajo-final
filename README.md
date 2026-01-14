@@ -24,5 +24,7 @@ sudo usermod -aG docker $(whoami)
 ```
 Fuente: https://docs.docker.com/engine/security/rootless/
 
+ - Tener instalado docker compose
+
 
 
