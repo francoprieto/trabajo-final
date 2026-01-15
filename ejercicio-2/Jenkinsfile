@@ -160,7 +160,7 @@ pipeline {
               echo "Importando CycloneDX BOM (SCA) a DefectDojo..."
               curl -sS -X POST "${DD_URL}/api/v2/import-scan/" \
                 -H "Authorization: Token ${DD_API_KEY}" \
-                -H "accept: application/xml" \
+                -H "accept: application/json" \
                 -F "scan_type=CycloneDX Scan" \
                 -F "minimum_severity=Info" \
                 -F "active=true" \
@@ -170,7 +170,7 @@ pipeline {
                 -F "product_name=${PRODUCT_NAME}" \
                 -F "engagement_name=${ENGAGEMENT_NAME}" \
                 -F "tags=${TAGS}" \
-                -F "file=@reports/dependency-track-bom.xml"
+                -F "file=@reports/dependency-track-bom.xml;type=application/xml"
             '''
         }
       }
