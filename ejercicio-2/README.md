@@ -136,3 +136,45 @@ Verificamos el "Console Output" y vemos que el Security Gate de Bandit provocó 
 - Vamos a la pestaña "Findigs" y seleccionamos "View Active Findings" veremos la lista de hallazgos:
 
 ![Ejercicio](../resources/imgs/2/26-dd-findings.png)
+
+## 2.10. Hook precommit GitLeak 
+
+### 2.10.1. Instalamos herramientas localmente 
+
+Para implementar, instalamos el precommit y gitleaks en el equipo del desarrollador:
+
+```bash
+pip install pre-commit
+```
+![Ejercicio](../resources/imgs/2/27-pre-commit-install.png)
+
+![Ejercicio](../resources/imgs/2/28-gitleaks-install.png)
+
+
+### 2.10.2. Instalamos el hook
+
+- Creamos un archivo llamado ".pre-commit-config.yaml" en la raiz del repositorio con el siguiente contenido:
+
+```yml
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+        name: gitleaks-secret-scan
+        args:
+          - protect
+          - --staged
+          - --redact
+```
+
+- Instalamos el hook (sólo una vez por repositorio):
+```bash
+pre-commit install
+```
+
+![Ejercicio](../resources/imgs/2/29-hook-install.png)
+
+### 2.10.3. Probamos el hook
+
+![Ejercicio](../resources/imgs/2/30-hook-demo.png)
