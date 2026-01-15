@@ -109,8 +109,8 @@ pipeline {
 
     // Etapa que integra los reportes en DefectDojo 
     stage('Integracion DefectDojo') {
-        steps {
 
+      steps {
           withCredentials([
             string(credentialsId: 'defectdojo-api-key', variable: 'DD_API_KEY')
           ]) {
@@ -168,11 +168,9 @@ pipeline {
                 -F "tags=${TAGS}" \
                 -F "file=@reports/cyclonedx-bom.xml"
             '''
-          }
-
         }
-      }  
-    }
+      }
+    }  
 
   }
 
