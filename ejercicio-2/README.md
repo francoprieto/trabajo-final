@@ -18,9 +18,17 @@ Seguir los [pasos para montar e iniciar los contenedores](../resources/docker/RE
 
 ![Ejercicio](../resources/imgs/2/08-crear-api-key-2.png)
 
-***OBS:*** Es muy importante copiar y guardar esta API-KEY
+> ### ***OBS:*** Es muy importante copiar y guardar esta API-KEY
 
-## 2.3. Configuramos las credenciales dependency-track en Jenkins
+## 2.3. Obtenemos el API-KEY de Defect Dojo
+
+Ingresamos a Defect Dojo: http://localhost:8083 con las credenciales creadas (ver item 2.1), luego ingresamos al ícono del usuario y luego "API v2 Key"
+
+![Ejercicio](../resources/imgs/2/13-defect-dojo-key.png)
+
+> ### Copiamos el valor correspondiente a: *Your current API key is*
+
+## 2.4. Configuramos las credenciales dependency-track y Defect Dojo en Jenkins
 
 - Ingresamos e inicializamos la instancia de Jenkins http://localhost:8080
 
@@ -40,20 +48,22 @@ Seguir los [pasos para montar e iniciar los contenedores](../resources/docker/RE
 
 ![Ejercicio](../resources/imgs/2/11-jenkins-credentials-3.png)
 
-## 2.4. Instalamos el plugin dependency-track en Jenkins
+- Repetimos este proceso (item 2.4) para crear credenciales para Defect-Dojo, con el ID "defectdojo-api-key" y en "Secret" completamos con el valor copiado en el item 2.3.
+
+## 2.5. Instalamos el plugin dependency-track en Jenkins
 
 - Abrimos la opción "Manage Jenkins" (icono del engranage), "Plugins",  "Available Plugins" y buscamos "dependency-track". Marcamos e Instalamos:
 
 ![Ejercicio](../resources/imgs/2/12-jenkins-plugin.png)
 
-## 2.5. Creamos y configuramos el pipeline
+## 2.6. Creamos y configuramos el pipeline
 
-### 2.5.1. Crear un pipeline
+### 2.6.1. Crear un pipeline
 
 Creamos un Item llamado "ejercicio2" de tipo pipeline.
 ![Ejercicio](../resources/imgs/2/01-crear-pipeline.png)
 
-### 2.5.2. Apuntar a Jenkinsfile
+### 2.6.2. Apuntar a Jenkinsfile
 En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM", y allí completamos con 
 - "Repository URL" con https://github.com/francoprieto/trabajo-final.git
 

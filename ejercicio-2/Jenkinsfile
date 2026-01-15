@@ -61,7 +61,7 @@ pipeline {
         sh '''      
           . "../${VENV}/bin/activate"
           pip install cyclonedx-bom
-          cyclonedx-py requirements -o ../dependency-track-bom.xml 
+          cyclonedx-py requirements -o reports/dependency-track-bom.xml 
         '''
       }      
     }
@@ -73,7 +73,7 @@ pipeline {
             string(credentialsId: 'dependency-track-api-key', variable: 'DTRACK_API_KEY')
           ]) {
               dependencyTrackPublisher(
-                  artifact: '../dependency-track-bom.xml',
+                  artifact: 'reports/dependency-track-bom.xml',
                   dependencyTrackUrl: 'http://dt-apiserver:8080',
                   dependencyTrackApiKey: DTRACK_API_KEY,
                   projectName: 'pygoat',
@@ -105,6 +105,73 @@ pipeline {
 
         '''
       }
+    }
+
+    // Etapa que integra los reportes en DefectDojo 
+    stage('Integracion DefectDojo') {
+        steps {
+
+          withCredentials([
+            string(credentialsId: 'defectdojo-api-key', variable: 'DD_API_KEY')
+          ]) {
+            sh '''
+              # URL de defect dojo
+              DD_URL="http://defectdojo-nginx:8080"
+
+              PRODUCT_TYPE="PyGoat"
+              PRODUCT_NAME="pygoat"
+              ENGAGEMENT_NAME="CI - ${BRANCH_NAME:-master}"
+              TAGS="jenkins,ci,pygoat"
+
+              echo "Importando Bandit (SAST) a DefectDojo..."
+              curl -sS -X POST "${DD_URL}/api/v2/import-scan/" \
+                -H "Authorization: Token ${DD_API_KEY}" \
+                -H "accept: application/json" \
+                -F "scan_type=Bandit" \
+                -F "minimum_severity=Info" \
+                -F "active=true" \
+                -F "verified=false" \
+                -F "auto_create_context=true" \
+                -F "product_type_name=${PRODUCT_TYPE}" \
+                -F "product_name=${PRODUCT_NAME}" \
+                -F "engagement_name=${ENGAGEMENT_NAME}" \
+                -F "tags=${TAGS}" \
+                -F "file=@reports/bandit_report.json"
+
+              echo "Importando GitLeaks (Secrets) a DefectDojo..."
+              curl -sS -X POST "${DD_URL}/api/v2/import-scan/" \
+                -H "Authorization: Token ${DD_API_KEY}" \
+                -H "accept: application/json" \
+                -F "scan_type=Gitleaks Scan" \
+                -F "minimum_severity=Info" \
+                -F "active=true" \
+                -F "verified=false" \
+                -F "auto_create_context=true" \
+                -F "product_type_name=${PRODUCT_TYPE}" \
+                -F "product_name=${PRODUCT_NAME}" \
+                -F "engagement_name=${ENGAGEMENT_NAME}" \
+                -F "tags=${TAGS}" \
+                -F "file=@reports/gitleaks.json"
+
+              echo "Importando CycloneDX BOM (SCA) a DefectDojo..."
+              curl -sS -X POST "${DD_URL}/api/v2/import-scan/" \
+                -H "Authorization: Token ${DD_API_KEY}" \
+                -H "accept: application/json" \
+                -F "scan_type=CycloneDX Scan" \
+                -F "minimum_severity=Info" \
+                -F "active=true" \
+                -F "verified=false" \
+                -F "auto_create_context=true" \
+                -F "product_type_name=${PRODUCT_TYPE}" \
+                -F "product_name=${PRODUCT_NAME}" \
+                -F "engagement_name=${ENGAGEMENT_NAME}" \
+                -F "tags=${TAGS}" \
+                -F "file=@reports/cyclonedx-bom.xml"
+            '''
+          }
+
+        }
+      }  
     }
 
   }
