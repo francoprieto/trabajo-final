@@ -59,25 +59,6 @@ pipeline {
       }
     }
 
-    // Etapa que implementa un security GATE para Bandit cuando es severidad ALTA o CRITICA
-    stage('Bandit Security Gate') {
-      when {
-        expression { return params.SECURITY_GATE }
-      }
-      steps {
-        sh '''
-          python - <<'PY'
-          import json,sys
-          data=json.load(open("reports/bandit_report.json"))
-          high=[x for x in data.get("results",[]) if x["issue_severity"] in ("HIGH","CRITICAL")]
-          print(f"Bandit HIGH/CRITICAL: {len(high)}")
-          if high:
-            sys.exit(2)
-          PY
-        '''
-      }
-    }
-
     // Etapa para instalar cyclonedx-bom y generar el archivo dependency-track-bom.xml necesario para dependency-track
     stage('Preparando dependencias') {
       steps {
@@ -106,7 +87,7 @@ pipeline {
               )
           }        
       }
-    }
+    }    
 
     // Etapa de descarga y ejecución de análisis de secretos con GitLeaks
     // El reporte también se guarda en el directorio reports
@@ -181,6 +162,63 @@ pipeline {
         }
       }
     }  
+
+
+    // Etapas de puertas de seguridad 
+
+    // Dependency track
+    stage('Dependency-Track Security Gate') {
+      
+      when { expression { return params.SECURITY_GATE } }
+      
+      steps {
+
+        withCredentials([
+            string(credentialsId: 'dependency-track-api-key', variable: 'DTRACK_API_KEY')
+          ]) {
+            sh '''
+                DTRACK_URL="http://dt-apiserver:8080"
+                UUID=$(curl -sS -H "X-Api-Key: ${DTRACK_API_KEY}" \
+                  "${DTRACK_URL}/api/v1/project/lookup?name=pygoat&version=1.0.0" \
+                  | python -c "import json,sys; print(json.load(sys.stdin).get('uuid',''))")
+                
+                violations=$(curl -sS -H "X-Api-Key: ${DTRACK_API_KEY}" \
+                  "${DTRACK_URL}/api/v1/violation/project/${UUID}" | python -c "import json,sys; print(len(json.load(sys.stdin)))")
+
+                if [ "$violations" -gt 0 ]; then
+                  echo "Se detectaron violaciones en Dependency-Track"
+                  exit 3
+                fi
+            '''
+          }
+
+      }
+
+    }
+    // Gate para Bandit cuando es severidad ALTA o CRITICA
+    stage('Bandit Security Gate') {
+      when {
+        expression { return params.SECURITY_GATE }
+      }
+      steps {
+       sh '''
+python - <<'PY'
+import json, sys
+
+with open("reports/bandit_report.json") as f:
+    data = json.load(f)
+
+high = [x for x in data.get("results", [])
+        if x.get("issue_severity") in ("HIGH", "CRITICAL")]
+
+print(f"Bandit: Se detectaron vulnerabilidades ALTAS/CRITICAS: {len(high)}")
+
+if high:
+    sys.exit(2)
+PY
+'''
+      }
+    }    
 
   }
 
