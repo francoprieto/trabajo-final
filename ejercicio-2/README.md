@@ -63,7 +63,17 @@ Ingresamos a Defect Dojo: http://localhost:8083 con las credenciales creadas (ve
 Creamos un Item llamado "ejercicio2" de tipo pipeline.
 ![Ejercicio](../resources/imgs/2/01-crear-pipeline.png)
 
-### 2.6.2. Apuntar a Jenkinsfile
+### 2.6.2. Crear un parámetro para ejecutar o no los Security Gates
+
+- Marcamos la opción "This project is parameterized", luego click en "Add Parameter" y seleccionamos "Boolean Parameter"
+
+![Ejercicio](../resources/imgs/2/15-jenkins-parametro-1.png)
+
+- Completamos los campos de la siguiente manera:
+
+![Ejercicio](../resources/imgs/2/16-jenkins-parametro-2.png)
+
+### 2.6.3. Apuntar a Jenkinsfile
 En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM", y allí completamos con 
 - "Repository URL" con https://github.com/francoprieto/trabajo-final.git
 
@@ -77,3 +87,52 @@ En la sección  "Definition" seleccionamos la opción "Pipeline script from SCM"
 
 ![Ejercicio](../resources/imgs/2/05-apuntar-jenkinsfile-3.png)
 
+## 2.7. Ejecutamos el pipeline
+
+- Al ingresar al Pipeline "ejercicio2" hacemos click en "Build with Parameters"
+
+![Ejercicio](../resources/imgs/2/17-jenkins-ejecutar.png)
+
+> Si marcamos SECURITY_GATE se ejecutarán los security gates con Bandit y Dependency-Track. Si dejamos desmarcado esto se omitirá.
+
+### 2.7.1. Ejemplo de resultado de ejecución sin Security Gates
+
+![Ejercicio](../resources/imgs/2/18-jenkins-ejecucion-sin-gates.png)
+
+### 2.7.2. Ejemplo de resultado de ejecución con Security Gates
+
+![Ejercicio](../resources/imgs/2/19-jenkins-ejecucion-con-gates.png)
+
+Verificamos el "Console Output" y vemos que el Security Gate de Bandit provocó que el pipeline falle:
+
+![Ejercicio](../resources/imgs/2/20-jenkins-ejecucion-con-gates-log.png)
+
+
+## 2.8. Integración con Dependency-Track
+
+- Ingresamos a Dependency-Track: http://localhost:8082 y vamos al menú "Projects", encontramos a "Pygoat"
+
+![Ejercicio](../resources/imgs/2/21-dt-project.png)
+
+- Entramos a pygoat y luego vamos a la pantalla "Components" visualizamos las dependencias del projecto:
+
+![Ejercicio](../resources/imgs/2/22-dt-project-deps.png)
+
+
+## 2.9. Integración con DefectDojo
+
+- Ingresamos a DefectDojo: http://localhost:8083 y encontramos que existe "*1 Active Engagement*" y varios Hallazgos (findings):
+
+![Ejercicio](../resources/imgs/2/23-dd-inicio.png)
+
+- Hacemos click en "View Engagement Details" y nos muestra la información del *engagement*:
+
+![Ejercicio](../resources/imgs/2/24-dd-engagement.png)
+
+- Hacemos nuevamente click sobre el nombre del *Engagement* que en este caso es "CI - master" y vemos la información de los análisis de las herramientas utlizadas:
+
+![Ejercicio](../resources/imgs/2/25-dd-test.png)
+
+- Vamos a la pestaña "Findigs" y seleccionamos "View Active Findings" veremos la lista de hallazgos:
+
+![Ejercicio](../resources/imgs/2/26-dd-findings.png)
