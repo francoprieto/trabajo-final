@@ -1,8 +1,9 @@
 pipeline {
   // Utilizamos la imagen my-python (ver resources/docker/python/Dockerfile)
   // que tiene instalado curl, tar y git, herramientas necesarias para gitleaks
+  // y hacemos que se una a la red creada en docker-compose
   agent {
-    docker { image 'my-python:1.1.0' }
+    docker { image 'my-python:1.1.0', args '--network docker_default' }
   }
 
   options {
