@@ -59,6 +59,25 @@ pipeline {
       }
     }
 
+    // Etapa que implementa un security GATE para Bandit cuando es severidad ALTA o CRITICA
+    stage('Bandit Security Gate') {
+      when {
+        expression { return params.SECURITY_GATE }
+      }
+      steps {
+        sh '''
+          python - <<'PY'
+          import json,sys
+          data=json.load(open("reports/bandit_report.json"))
+          high=[x for x in data.get("results",[]) if x["issue_severity"] in ("HIGH","CRITICAL")]
+          print(f"Bandit HIGH/CRITICAL: {len(high)}")
+          if high:
+            sys.exit(2)
+          PY
+        '''
+      }
+    }
+
     // Etapa para instalar cyclonedx-bom y generar el archivo dependency-track-bom.xml necesario para dependency-track
     stage('Preparando dependencias') {
       steps {
