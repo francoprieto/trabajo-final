@@ -170,7 +170,7 @@ pipeline {
                 -F "product_name=${PRODUCT_NAME}" \
                 -F "engagement_name=${ENGAGEMENT_NAME}" \
                 -F "tags=${TAGS}" \
-                -F "file=@reports/cyclonedx-bom.xml"
+                -F "file=@reports/dependency-track-bom.xml"
             '''
         }
       }
