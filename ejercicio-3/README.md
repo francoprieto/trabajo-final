@@ -45,4 +45,12 @@ Hacemos click en la opción "Reporte", permite exportar a PDF un reporte con un 
 
 ![Ejercicio](../resources/imgs/3/04-reporte.png)
 
-> Vea el archivo "Reporte-threat-dragon.pdf" para visualizar el resultado.
+> Vea el archivo [Reporte-threat-dragon.pdf](Reporte-threat-dragon.pdf) para visualizar el resultado.
+
+## 3.3. Detenemos el contenedor de Threat Dragon
+
+Ejecutamos el siguiente comando dentro del directorio ejercicio-3:
+
+```bash
+./detener-threatdragon.sh
+```
