@@ -11,12 +11,17 @@ pipeline {
 
   stages {
 
-
+    // Etapa para eliminar los archivos del workspace
+    stage('Limpieza Workspace') {
+      steps {
+        cleanWs()
+      }
+    }
 
     stage('Checkout') {
       steps {
         sh '''
-          git clone --depth 1 https://github.com/bridgecrewio/terragoat.git terragoat
+          git clone https://github.com/bridgecrewio/terragoat.git
         '''
       }
     }
