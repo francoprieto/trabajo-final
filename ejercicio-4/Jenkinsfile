@@ -9,13 +9,6 @@ pipeline {
 
   options { timestamps() }
 
-  environment {
-    TERRAGOAT_REPO = 'https://github.com/bridgecrewio/terragoat.git'
-    TERRAGOAT_DIR  = 'terragoat'
-    TF_DIR         = 'terragoat/terraform/aws'
-    REPORT_DIR     = 'reports/terrascan'
-  }
-
   stages {
 
     // Etapa para eliminar los archivos del workspace
@@ -28,7 +21,7 @@ pipeline {
     stage('Checkout') {
       steps {
         sh '''
-          git clone --depth 1 "${TERRAGOAT_REPO}" "${TERRAGOAT_DIR}"
+          git clone --depth 1 https://github.com/bridgecrewio/terragoat.git terragoat
         '''
       }
     }
@@ -36,13 +29,9 @@ pipeline {
     stage('Terrascan') {
       steps {
         sh '''
-          mkdir -p "${REPORT_DIR}"
-
-          docker run --rm -v "$PWD:/work" -w /work tenable/terrascan scan \
-            -i terraform -d "${TF_DIR}" -o junit-xml > "${REPORT_DIR}/baseline-junit.xml" || true
-
-          docker run --rm -v "$PWD:/work" -w /work tenable/terrascan scan \
-            -i terraform -d "${TF_DIR}" -o sarif > "${REPORT_DIR}/baseline.sarif" || true
+          mkdir -p reports/terrascan
+          terrascan scan -i terraform -d terragoat/terraform/aws -o junit-xml > reports/terrascan/terrascan-junit.xml || true
+          terrascan scan -i terraform -d terragoat/terraform/aws -o sarif     > reports/terrascan/terrascan.sarif || true
         '''
       }
     }
