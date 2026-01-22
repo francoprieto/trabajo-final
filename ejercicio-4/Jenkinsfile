@@ -2,7 +2,7 @@ pipeline {
 
  agent {
     docker {
-      image 'tenable/terrascan:latest'
+      image 'tenable/terrascan:1.19.9'
       args "--entrypoint='' -u 0:0"
     }
   }
