@@ -11,13 +11,6 @@ pipeline {
 
   stages {
 
-    // Etapa para eliminar los archivos del workspace
-    stage('Limpieza Workspace') {
-      steps {
-        cleanWs()
-      }
-    }
-
     stage('Checkout') {
       steps {
         sh '''
