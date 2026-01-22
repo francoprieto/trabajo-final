@@ -21,7 +21,8 @@ pipeline {
     stage('Checkout') {
       steps {
         sh '''
-          git clone --depth 1 https://github.com/bridgecrewio/terragoat.git terragoat
+            rm -rf terragoat
+            git clone --depth 1 https://github.com/bridgecrewio/terragoat.git terragoat
         '''
       }
     }
