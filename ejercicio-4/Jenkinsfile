@@ -3,7 +3,7 @@ pipeline {
  agent {
     docker {
       image 'tenable/terrascan:latest'
-      args  '-u 0:0'   // optional; helps if permissions get weird
+      args "--entrypoint='' -u 0:0"
     }
   }
 
@@ -14,9 +14,6 @@ pipeline {
     TERRAGOAT_DIR  = 'terragoat'
     TF_DIR         = 'terragoat/terraform/aws'
     REPORT_DIR     = 'reports/terrascan'
-
-    // DEMO: reemplaza por tu IP/32 o tu CIDR corporativa real
-    ALLOWED_SSH_CIDR = '203.0.113.10/32'   // RFC 5737 (ejemplo)
   }
 
   stages {
