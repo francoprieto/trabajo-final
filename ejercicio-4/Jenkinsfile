@@ -1,0 +1,53 @@
+pipeline {
+  agent any
+  options { timestamps() }
+
+  environment {
+    TERRAGOAT_REPO = 'https://github.com/bridgecrewio/terragoat.git'
+    TERRAGOAT_DIR  = 'terragoat'
+    TF_DIR         = 'terragoat/terraform/aws'
+    REPORT_DIR     = 'reports/terrascan'
+
+    // DEMO: reemplaza por tu IP/32 o tu CIDR corporativa real
+    ALLOWED_SSH_CIDR = '203.0.113.10/32'   // RFC 5737 (ejemplo)
+  }
+
+  stages {
+
+    // Etapa para eliminar los archivos del workspace
+    stage('Limpieza Workspace') {
+      steps {
+        cleanWs()
+      }
+    }
+
+    stage('Checkout') {
+      steps {
+        sh '''
+          git clone --depth 1 "${TERRAGOAT_REPO}" "${TERRAGOAT_DIR}"
+        '''
+      }
+    }
+
+    stage('Terrascan') {
+      steps {
+        sh '''
+          mkdir -p "${REPORT_DIR}"
+
+          docker run --rm -v "$PWD:/work" -w /work tenable/terrascan scan \
+            -i terraform -d "${TF_DIR}" -o junit-xml > "${REPORT_DIR}/baseline-junit.xml" || true
+
+          docker run --rm -v "$PWD:/work" -w /work tenable/terrascan scan \
+            -i terraform -d "${TF_DIR}" -o sarif > "${REPORT_DIR}/baseline.sarif" || true
+        '''
+      }
+    }
+  }
+  
+  post {
+    always {
+      archiveArtifacts artifacts: 'reports/terrascan/*', fingerprint: true
+    }
+  }
+
+}
